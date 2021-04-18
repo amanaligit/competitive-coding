@@ -1,0 +1,1 @@
+std::cout<<tree[i].key<<tree[tree[i].left].key<<tree[tree[i].right].key<<std::endl;
