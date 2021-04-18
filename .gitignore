@@ -1,0 +1,14 @@
+.cph
+.vscode
+*.java
+*.exe
+*.out
+*.py
+*.kt
+*.js
+*.cs
+*.hs
+*.rb
+*.rs
+*.scala
+ds original
