@@ -113,9 +113,16 @@ public:
         string ans = "", a = "";
         a = s.substr(st, s.size());
         for (int i = a.size() - 1; i >= 0; i--)
+<<<<<<< HEAD
             ans += a[i];
-        ans += s;
-        return ans;
+        == == == =
+        {
+            ans += a[i];
     }
-};
+>>>>>>> fbf0920622fe2fc70e5cfac01be440f866f0b146
+    ans += s;
+    return ans;
+}
+}
+;
 // @lc code=end
