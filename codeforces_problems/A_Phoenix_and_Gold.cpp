@@ -18,71 +18,71 @@ typedef vector<int> vi;
 typedef vector<pii> vpii;
 typedef vector<vi> vvi;
 typedef vector<ll> vl;
+typedef vector<bool> vb;
+typedef vector<vb> vvb;
 //=======================
 const int MOD = 1'000'000'007;
 const int N = 2e6 + 13, M = N;
 //=======================
-ll mod(ll value)
+ll modulo(ll value)
 {
-    ll m = value % MOD;
-    if (m < 0)
-        m += MOD;
-    return m;
+    ll mod = value % MOD;
+    if (mod < 0)
+        mod += MOD;
+    return mod;
 }
 //=======================
 
 class Solution
 {
 public:
-    int gcd(int a, int b)
-    {
-        if (a == 0)
-            return b;
-        return gcd(b % a, a);
-    }
+    vi w;
+    int x;
     void solve()
     {
         int n;
-        cin >> n;
-        vi a;
-        for (size_t i = 1; i < n; i++)
+        cin >> n >> x;
+        w.resize(n);
+        for (size_t i = 0; i < n; i++)
         {
-            a.push_back(i);
+            int temp;
+            cin >> temp;
+            w[i] = temp;
         }
-        vi ans;
-        for (size_t i = 0; i < a.size(); i++)
+        sort(w.begin(), w.end());
+        int sum = 0;
+        for (size_t i = 0; i < n; i++)
         {
-            if (gcd(a[i], n) == 1)
-                ans.push_back(a[i]);
-        }
-
-        ll prod = 1;
-        for (size_t i = 0; i < ans.size(); i++)
-        {
-            prod = (prod * ans[i]) % n;
-        }
-        if (prod != 1)
-        {
-            cout << ans.size() - 1 << endl;
-            for (size_t i = 0; i < ans.size(); i++)
+            if (sum + w[i] == x)
             {
-                if (ans[i] != prod)
-                    cout << ans[i] << " ";
+                if (i + 1 < n)
+                    swap(w[i], w[i + 1]);
+                else
+                {
+                    cout << "NO" << endl;
+                    return;
+                }
             }
-            return;
+            sum += w[i];
         }
-        cout << ans.size() << endl;
-        for (size_t i = 0; i < ans.size(); i++)
+        cout << "YES" << endl;
+        for (auto var : w)
         {
-            cout << ans[i] << " ";
+            cout << var << " ";
         }
+        cout << endl;
     }
 };
 
 int main()
 {
     ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-    Solution sol;
-    sol.solve();
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        Solution sol;
+        sol.solve();
+    }
     return 0;
 }

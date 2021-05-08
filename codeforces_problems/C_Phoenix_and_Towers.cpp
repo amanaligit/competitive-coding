@@ -18,71 +18,66 @@ typedef vector<int> vi;
 typedef vector<pii> vpii;
 typedef vector<vi> vvi;
 typedef vector<ll> vl;
+typedef vector<bool> vb;
+typedef vector<vb> vvb;
 //=======================
 const int MOD = 1'000'000'007;
 const int N = 2e6 + 13, M = N;
 //=======================
-ll mod(ll value)
+ll modulo(ll value)
 {
-    ll m = value % MOD;
-    if (m < 0)
-        m += MOD;
-    return m;
+    ll mod = value % MOD;
+    if (mod < 0)
+        mod += MOD;
+    return mod;
 }
 //=======================
 
 class Solution
 {
 public:
-    int gcd(int a, int b)
-    {
-        if (a == 0)
-            return b;
-        return gcd(b % a, a);
-    }
     void solve()
     {
-        int n;
-        cin >> n;
-        vi a;
-        for (size_t i = 1; i < n; i++)
+        int m, n, x;
+        cin >> n >> m >> x;
+        vpii h(n);
+        for (size_t i = 0; i < n; i++)
         {
-            a.push_back(i);
+            cin >> h[i].F;
+            h[i].S = i;
         }
-        vi ans;
-        for (size_t i = 0; i < a.size(); i++)
+        sortall(h);
+        priority_queue<pii> pq;
+        for (size_t i = 0; i < m; i++)
         {
-            if (gcd(a[i], n) == 1)
-                ans.push_back(a[i]);
+            pq.push(make_pair(0, i + 1));
         }
-
-        ll prod = 1;
-        for (size_t i = 0; i < ans.size(); i++)
+        vi ans(n);
+        for (size_t i = 0; i < n; i++)
         {
-            prod = (prod * ans[i]) % n;
+            auto top = pq.top();
+            pq.pop();
+            ans[h[i].S] = top.S;
+            pq.push(make_pair(top.F - h[i].F, top.S));
         }
-        if (prod != 1)
+        cout << "YES" << endl;
+        for (size_t i = 0; i < n; i++)
         {
-            cout << ans.size() - 1 << endl;
-            for (size_t i = 0; i < ans.size(); i++)
-            {
-                if (ans[i] != prod)
-                    cout << ans[i] << " ";
-            }
-            return;
+            cout << ans[i] << ' ';
         }
-        cout << ans.size() << endl;
-        for (size_t i = 0; i < ans.size(); i++)
-        {
-            cout << ans[i] << " ";
-        }
+        cout << endl;
     }
 };
 
 int main()
 {
     ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-    Solution sol;
-    sol.solve();
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        Solution sol;
+        sol.solve();
+    }
     return 0;
 }

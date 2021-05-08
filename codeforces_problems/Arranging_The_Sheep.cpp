@@ -18,71 +18,78 @@ typedef vector<int> vi;
 typedef vector<pii> vpii;
 typedef vector<vi> vvi;
 typedef vector<ll> vl;
+typedef vector<bool> vb;
+typedef vector<vb> vvb;
 //=======================
 const int MOD = 1'000'000'007;
 const int N = 2e6 + 13, M = N;
 //=======================
-ll mod(ll value)
+ll modulo(ll value)
 {
-    ll m = value % MOD;
-    if (m < 0)
-        m += MOD;
-    return m;
+    ll mod = value % MOD;
+    if (mod < 0)
+        mod += MOD;
+    return mod;
 }
 //=======================
 
 class Solution
 {
 public:
-    int gcd(int a, int b)
-    {
-        if (a == 0)
-            return b;
-        return gcd(b % a, a);
-    }
     void solve()
     {
         int n;
         cin >> n;
-        vi a;
-        for (size_t i = 1; i < n; i++)
+        string s;
+        cin >> s;
+        ll ans = 0;
+        int len = 0;
+        int si;
+        for (int i = 0; i < n; i++)
         {
-            a.push_back(i);
-        }
-        vi ans;
-        for (size_t i = 0; i < a.size(); i++)
-        {
-            if (gcd(a[i], n) == 1)
-                ans.push_back(a[i]);
+            if (s[i] == '*')
+            {
+                si = i;
+                break;
+            }
         }
 
-        ll prod = 1;
-        for (size_t i = 0; i < ans.size(); i++)
+        for (int i = 0; i < n; i++)
         {
-            prod = (prod * ans[i]) % n;
-        }
-        if (prod != 1)
-        {
-            cout << ans.size() - 1 << endl;
-            for (size_t i = 0; i < ans.size(); i++)
+            if (s[i] == '*')
             {
-                if (ans[i] != prod)
-                    cout << ans[i] << " ";
+                ans += i - si - len;
+                len++;
             }
-            return;
         }
-        cout << ans.size() << endl;
-        for (size_t i = 0; i < ans.size(); i++)
+        int nl = 0;
+        int nr = len - 1;
+        ll cur = ans;
+        int li = si;
+        for (int i = si + 1; i < n; i++)
         {
-            cout << ans[i] << " ";
+            if (s[i] == '*')
+            {
+                cur = cur - ((i - li - 1) * (nr - 1)) + ((i - li - 1) * (nl));
+                nr--;
+                nl++;
+                ans = min(ans, cur);
+                li = i;
+            }
         }
+        cout << ans << endl;
     }
 };
 
 int main()
 {
     ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-    Solution sol;
-    sol.solve();
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        Solution sol;
+        sol.solve();
+    }
     return 0;
 }

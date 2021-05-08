@@ -18,63 +18,67 @@ typedef vector<int> vi;
 typedef vector<pii> vpii;
 typedef vector<vi> vvi;
 typedef vector<ll> vl;
+typedef vector<bool> vb;
+typedef vector<vb> vvb;
 //=======================
 const int MOD = 1'000'000'007;
 const int N = 2e6 + 13, M = N;
 //=======================
-ll mod(ll value)
+ll modulo(ll value)
 {
-    ll m = value % MOD;
-    if (m < 0)
-        m += MOD;
-    return m;
+    ll mod = value % MOD;
+    if (mod < 0)
+        mod += MOD;
+    return mod;
 }
 //=======================
 
 class Solution
 {
 public:
-    int gcd(int a, int b)
-    {
-        if (a == 0)
-            return b;
-        return gcd(b % a, a);
-    }
     void solve()
     {
         int n;
         cin >> n;
-        vi a;
-        for (size_t i = 1; i < n; i++)
+        if (n == 2)
         {
-            a.push_back(i);
-        }
-        vi ans;
-        for (size_t i = 0; i < a.size(); i++)
-        {
-            if (gcd(a[i], n) == 1)
-                ans.push_back(a[i]);
-        }
-
-        ll prod = 1;
-        for (size_t i = 0; i < ans.size(); i++)
-        {
-            prod = (prod * ans[i]) % n;
-        }
-        if (prod != 1)
-        {
-            cout << ans.size() - 1 << endl;
-            for (size_t i = 0; i < ans.size(); i++)
-            {
-                if (ans[i] != prod)
-                    cout << ans[i] << " ";
-            }
+            cout << -1 << endl;
             return;
         }
-        cout << ans.size() << endl;
-        for (size_t i = 0; i < ans.size(); i++)
+        vvi mat(n, vi(n));
+        for (size_t i = 0; i < n; i++)
         {
-            cout << ans[i] << " ";
+            mat[i][i] = i + 1;
+        }
+        int cur = n + 1;
+        for (size_t i = 1; i < n; i++)
+        {
+            int si = 0;
+            int sj = i;
+            while (sj < n)
+            {
+                mat[si][sj] = cur;
+                si++;
+                sj++;
+                cur++;
+            }
+            si = i;
+            sj = 0;
+            while (si < n)
+            {
+                mat[si][sj] = cur;
+                si++;
+                sj++;
+                cur++;
+            }
+        }
+        for (size_t i = 0; i < n; i++)
+        {
+            for (size_t j = 0; j < n; j++)
+            {
+                cout << mat[i][j] << " ";
+            }
+            cout << endl;
         }
     }
 };
@@ -82,7 +86,12 @@ public:
 int main()
 {
     ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-    Solution sol;
-    sol.solve();
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        Solution sol;
+        sol.solve();
+    }
     return 0;
 }

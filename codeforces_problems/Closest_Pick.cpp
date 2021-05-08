@@ -22,67 +22,68 @@ typedef vector<ll> vl;
 const int MOD = 1'000'000'007;
 const int N = 2e6 + 13, M = N;
 //=======================
-ll mod(ll value)
+ll modulo(ll value)
 {
-    ll m = value % MOD;
-    if (m < 0)
-        m += MOD;
-    return m;
+    ll mod = value % MOD;
+    if (mod < 0)
+        mod += MOD;
+    return mod;
 }
 //=======================
 
 class Solution
 {
 public:
-    int gcd(int a, int b)
-    {
-        if (a == 0)
-            return b;
-        return gcd(b % a, a);
-    }
     void solve()
     {
-        int n;
-        cin >> n;
-        vi a;
-        for (size_t i = 1; i < n; i++)
+        int n, k;
+        cin >> n >> k;
+        vi p(n);
+        for (size_t i = 0; i < n; i++)
         {
-            a.push_back(i);
+            cin >> p[i];
         }
-        vi ans;
-        for (size_t i = 0; i < a.size(); i++)
+        sortall(p);
+        double w1 = 0, w2 = 0;
+        if (1 < p.front())
         {
-            if (gcd(a[i], n) == 1)
-                ans.push_back(a[i]);
+            double num = p.front() - 1;
+            w1 = max(w1, num);
         }
-
-        ll prod = 1;
-        for (size_t i = 0; i < ans.size(); i++)
+        for (size_t i = 0; i < n - 1; i++)
         {
-            prod = (prod * ans[i]) % n;
-        }
-        if (prod != 1)
-        {
-            cout << ans.size() - 1 << endl;
-            for (size_t i = 0; i < ans.size(); i++)
+            double num = p[i + 1] - p[i] - 1;
+            if (w1 > w2)
+                swap(w1, w2);
+            if (w1 < ceil((num) / 2))
             {
-                if (ans[i] != prod)
-                    cout << ans[i] << " ";
+                w1 = ceil((num) / 2);
+                w2 = max(w2, num - w1);
             }
-            return;
         }
-        cout << ans.size() << endl;
-        for (size_t i = 0; i < ans.size(); i++)
+        if (w1 > w2)
+            swap(w1, w2);
+        if (k > p.back())
         {
-            cout << ans[i] << " ";
+            double num = k - p.back();
+            w1 = max(w1, num);
         }
+        double ans = (w1 + w2) / k;
+        cout << ans << endl;
     }
 };
 
 int main()
 {
     ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-    Solution sol;
-    sol.solve();
+    int t;
+    cin >> t;
+    int temp = t;
+    while (t--)
+    {
+        Solution sol;
+        cout << "Case #" << temp - t << ": ";
+        sol.solve();
+    }
     return 0;
 }
